@@ -16,8 +16,13 @@
 </head>
 <body>
 <div class="container" id="app" v-cloak>
-    <div>
-        <h2>{{room.name}}</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>{{room.name}} <span class="badge badge-info badge-pill">{{userCount}}</span></h4>
+        </div>
+        <div class="col-md-6 text-right">
+            <a class="btn btn-info btn-sm" href="/chat/room">채팅방 나가기</a>
+        </div>
     </div>
     <div class="input-group">
         <div class="input-group-prepend">
@@ -54,7 +59,8 @@
             room: {},
             sender: '',
             message: '',
-            messages: []
+            messages: [],
+            userCount: 0
         },
         created() {
             this.roomId = localStorage.getItem('wschat.roomId');
@@ -70,6 +76,7 @@
                 this.message = '';
             },
             recvMessage: function(recv) {
+                this.userCount = recv.userCount;
                 this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.message})
             }
         }
